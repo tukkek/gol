@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>GoL</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body{background:lightgrey;}
+		</style>
+	</head>
+	<body>
+		<canvas id='board' width="100" height="100"></canvas>
+		<canvas id='frame' width="100" height="100"></canvas>
+		<div id='controls'>
+			<button id='step'>Step</button>
+			<button id='animate'>Animate</button>
+			<button onclick='location.reload()'>Reload</button>
+		</div>
+	</body>
+	<script type="module">
+		import {Game,Ufsc} from "./src/gol.mjs";
+		import {roll} from "./src/random.mjs";
+		
+		var board=document.querySelector('#board');
+		var frame=document.querySelector('#frame');
+		var animating=false;
+		var game=new Game(100,100,frame);
+		
+		function step(){
+			game.step();
+			game.draw(board);
+		}
+		
+		function animate(){
+      animating=animating?clearInterval(animating):
+        setInterval(step,1000/30);
+		}
+		
+		function register(id,callback){
+      document.querySelector('#'+id).addEventListener(
+        'click',callback);	
+		}
+
+		game.draw(board);
+		register('step',step);
+		register('animate',animate);	
+	</script>
+</html>
