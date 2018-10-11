@@ -113,27 +113,31 @@ export class Ufsc extends Game{
       random.roll(0,255),]
     frame.fillStyle='rgb('+rgb.join(',')+')';
     frame.fillRect(0,0,width,height);
-    let visited=new Set();
+    let keyholes=[];
     for(let x=0;x<width;x++)
       for(let y=0;y<height;y++)
-        if(current[x][y]&&next[x][y]&&!this.check(x,y,8,visited)){
-          visited.add(x+':'+y);
-          let key=[rgb[0],rgb[1],rgb[2]];
-          for(let i=0;i<3;i++){
+        if(current[x][y]&&next[x][y])
+            keyholes.push({'x':x,'y':y});
+    keyholes=random.shuffle(keyholes);
+    let nkeyholes=random.roll(0,10);
+    if(nkeyholes>keyholes.length) nkeyholes=keyholes.length;
+    for(let i=0;i<nkeyholes;i++){
+        let key=[rgb[0],rgb[1],rgb[2]];
+        for(let i=0;i<3;i++){
             key[i]=random.roll(key[i],255);
             key[i]=random.roll(key[i],255);
-          }
-          frame.fillStyle='rgb('+key.join(',')+')';
-          frame.fillRect(x,y,1,1);
         }
+        frame.fillStyle='rgb('+key.join(',')+')';
+        frame.fillRect(keyholes[i]['x'],keyholes[i]['y'],1,1);
+    }
   }
   
-  check(xp,yp,range,visited){
+  /*check(xp,yp,range,visited){
     for(let x=xp-range;x<=xp+range;x++)
       for(let y=yp-range;y<=yp+range;y++)
         if(visited.has(x+':'+y)) return true;
     return false;
-  }
+  }*/
 }
 
 function bind(x,min,max){

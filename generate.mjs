@@ -4,11 +4,11 @@ import fs from 'fs';
 
 const FPS=30;
 const MINUTE=FPS*60;
-const FRAMES=MINUTE;
-const SIZE=200;
+const FRAMES=roll(1,5*60)*FPS;
+const SIZE=50;
 
 var frame=canvas.createCanvas(SIZE,SIZE);
-var game=new Game(SIZE,SIZE,frame);
+var game=new Ufsc(SIZE,SIZE,frame);
 
 run();
 
@@ -32,4 +32,8 @@ async function run(){
     console.log(i,progress+'%');
     last=progress;
   }
+}
+
+function roll(min,max) {
+  return Math.random()*(max-min)+min;
 }
